@@ -2,7 +2,30 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Movie Shelf</h1>
+        <div>
+            <span>Search for movie </span><input type="text" name="MovieSearchQuery" id="MovieSearchQuery" />
+        </div>
+        <div style="padding:4px">
+            <input type="button" onclick="searchMovie()" value="Search" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        function searchMovie() {
+            const searchQuery = $("#MovieSearchQuery").val();
+            $.ajax({
+                url: 'https://api.themoviedb.org/3/search/movie?api_key=84e19b864aec5e2475d39605596107c2&query=' + searchQuery,
+                method: 'GET',
+                dataType: 'json',
+                contentType: 'text/plain',
+                success: function (data) {
+                    alert("API Called");
+                    data.results.forEach(x => console.log(x.original_title));
+                },
+                fail: function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                }
+            })
+        }
+    </script>
